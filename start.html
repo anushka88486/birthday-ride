@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Day</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background-color: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    #landing, #memory-lane, #garage, #final-destination {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .vimeo-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .vimeo-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .fade-out {
+      opacity: 0 !important;
+    }
+
+    h1, h2 {
+      font-size: 3em;
+      color: #f72585;
+      text-shadow: 0 0 10px #f72585;
+    }
+
+    p {
+      font-size: 1.3em;
+      color: #eee;
+      max-width: 80%;
+      line-height: 1.6;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1em;
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: rgba(0, 0, 0, 0.6);
+      border-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Landing Page -->
+<div id="landing">
+  <div class="vimeo-wrapper">
+    <iframe src="https://player.vimeo.com/video/1083569532?h=a21c64e145&autoplay=1&loop=1&background=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+  <div class="overlay">
+    <h1>21-05!</h1>
+    <p>Let’s shift into another unforgettable year 💨</p>
+    <button onclick="startJourney()">Start the Ride</button>
+    <button onclick="toggleMusic()">Play Music in Your Ride 🎶</button>
+  </div>
+</div>
+
+<!-- Memory Lane -->
+<div id="memory-lane" class="hidden">
+  <div class="vimeo-wrapper">
+    <iframe src="https://player.vimeo.com/video/1083570314?h=b63feacca8&autoplay=1&loop=1&background=1" allow="autoplay; fullscreen"  allowfullscreen ></iframe>
+  </div>
+  <div class="overlay" id="memory-overlay">
+    <h2 id="memory-title">Memory Lane</h2>
+    <p id="memory-text">This is where we reminisce about all the good times...</p>
+    <button onclick="nextMemory()">Next Stop</button>
+    <button onclick="goToGarage()">To Garage 🛠️</button>
+  </div>
+</div>
+
+<!-- Garage Section -->
+<div id="garage" class="hidden">
+  <div class="vimeo-wrapper">
+    <iframe src="https://player.vimeo.com/video/1083568671?h=048e105e1c&autoplay=1&loop=1&background=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+  <div class="overlay" id="garage-overlay">
+    <h2 id="garage-title">The Garage</h2>
+    <p id="garage-text">This is where we check out our rides and gear up for the road!</p>
+    <button onclick="nextGarage()">Next Garage Moment</button>
+    <button onclick="goToFinal()">Final Destination 🎂</button>
+  </div>
+</div>
+
+<!-- Final Destination Section -->
+<div id="final-destination" class="hidden">
+  <div class="vimeo-wrapper">
+    <iframe src="https://player.vimeo.com/video/1083569668?h=b543af2c16&autoplay=1&loop=1&background=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+  <div class="overlay">
+    <h2>🏁 Final Destination</h2>
+    <p>
+      Happy Birthday Racer ❤️<br><br>
+      From classmates in 2023, to lovers, to almost strangers… and somehow, we found our way back.<br><br>
+      Now we stand at the edge of graduation, and I can’t help but feel grateful—for every high-speed joyride, every breakdown, and every restart we’ve braved together.<br><br>
+      You and I... we’re not perfect, but we <i>choose</i> each other. And that choice? I hope we keep making it—every single day.<br><br>
+      Here’s to everything ahead of us—the dreams, the drives, the detours, and the home we’ll build.<br><br>
+      Happy Birthday, my favorite co-driver. Buckle up — the best is yet to come. 💙 🏁🎂<br><br>
+    </p>
+  </div>
+</div>
+
+<!-- Background Music -->
+<audio id="audio-player" autoplay loop>
+  <source src="https://www.dropbox.com/scl/fi/zu242tqencpx7plgv97ss/SpotiDown.App-Starboy-The-Weeknd.mp3?rlkey=udrur7aj002pxvblt99z41spj&st=d4gu5bfb&dl=1" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+
+<script>
+  const landing = document.getElementById('landing');
+  const memoryLane = document.getElementById('memory-lane');
+  const garage = document.getElementById('garage');
+  const finalDestination = document.getElementById('final-destination');
+  const overlay = document.getElementById('memory-overlay');
+  const audioPlayer = document.getElementById('audio-player');
+
+  const memories = [
+    {
+      title: "Memory Lane",
+      text: "This is where we reminisce about all the good times..."
+    },
+    {
+      title: "Our First Ride",
+      text: "Our first nightout began with a drive to India Gate, surrounded by our mutual friends, laughter echoing through the night. Then a second truly unforgettable moment was the second late-night drive, just the two of us. That quiet escape felt like the beginning of something special. I admired you in every single second, feeling safe, happy, and alive beside you. And yet, after every nightout, I’d always ask the same silly question with a teasing smile: “You do know how to drive, right? Do you have a license?” Funny how I asked that."
+    },
+    {
+      title: "The Drift Moments",
+      text: "Like every drive we took, every moment with you feels custom-built sometimes rushed but, always detailed. Whether it was picking the perfect playlist or choosing the longest route home, everything was tuned just right for our journey."
+    },
+    {
+      title: "Coming Soon...",
+      text: "More memories unlocking soon. Until then, enjoy the ride! 🎉"
+    }
+  ];
+
+  const garageMemories = [
+    {
+      title: "The Garage",
+      text: "Before every drive, we’d prepare the car in our own quirky way. One time, we washed it using Bisleri water bottles just to make sure it was spotless before hitting the road. Another time, you showed up in CP with food in hand while I was shopping for ethnic day, ready to take me on yet another spontaneous adventure. This captures the feeling of preparing together for a fun drive while adding those personal touches."
+    },
+    {
+      title: "Custom Builds 🔧",
+      text: "Like every drive we took, every moment with you feels custom-built sometimes rushed but, always detailed. Whether it was picking the perfect playlist or choosing the longest route home, everything was tuned just right for our journey."
+    },
+    {
+      title: "The Dream Car",
+      text: "We always talk about dream rides—but truth is, any car with you feels like a dream. From a Bisleri-washed hood to late-night city drifts, it's not about the machine, it’s about the one in the driver’s seat."
+    },
+    {
+      title: "Coming Soon...",
+      text: "Stay tuned for more gear talk and dream machines!"
+    }
+  ];
+
+  let memoryIndex = 0;
+  let garageIndex = 0;
+
+  function startJourney() {
+    landing.classList.add('hidden');
+    memoryLane.classList.remove('hidden');
+  }
+
+  function toggleMusic() {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+    } else {
+      audioPlayer.pause();
+    }
+  }
+
+  function nextMemory() {
+    memoryIndex = (memoryIndex + 1) % memories.length;
+    overlay.classList.add('fade-out');
+    setTimeout(() => {
+      document.getElementById('memory-title').textContent = memories[memoryIndex].title;
+      document.getElementById('memory-text').textContent = memories[memoryIndex].text;
+      overlay.classList.remove('fade-out');
+    }, 1000);
+  }
+
+  function goToGarage() {
+    memoryLane.classList.add('hidden');
+    garage.classList.remove('hidden');
+    garageIndex = 0;
+    document.getElementById('garage-title').textContent = garageMemories[garageIndex].title;
+    document.getElementById('garage-text').textContent = garageMemories[garageIndex].text;
+  }
+
+  function nextGarage() {
+    garageIndex = (garageIndex + 1) % garageMemories.length;
+    const garageOverlay = document.getElementById('garage-overlay');
+    garageOverlay.classList.add('fade-out');
+    setTimeout(() => {
+      document.getElementById('garage-title').textContent = garageMemories[garageIndex].title;
+      document.getElementById('garage-text').textContent = garageMemories[garageIndex].text;
+      garageOverlay.classList.remove('fade-out');
+    }, 1000);
+  }
+
+  function goToFinal() {
+    garage.classList.add('hidden');
+    finalDestination.classList.remove('hidden');
+  }
+</script>
+
+</body>
+</html>
